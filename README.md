@@ -8,7 +8,7 @@ Crosspipe is a visual graph manager for PipeWire, built with GTK4/Libadwaita and
 ![Light theme](https://raw.githubusercontent.com/dp0sk/Crosspipe/refs/heads/main/attachments/screenshot-light.png)
 ![Dark theme](https://raw.githubusercontent.com/dp0sk/Crosspipe/refs/heads/main/attachments/screenshot-dark.png)
 
-https://raw.githubusercontent.com/dp0sk/Crosspipe/refs/heads/main/attachments/screencast.mp4
+https://github.com/user-attachments/assets/2146d7d6-88d2-4aa7-8eb8-405baf012b20
 
 ## Features
 
