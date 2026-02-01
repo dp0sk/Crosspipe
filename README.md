@@ -1,20 +1,46 @@
-# Crosspipe
+<div>
+  <div align="left">
+    <img alt="Crosspipe icon" align="left" src="https://raw.githubusercontent.com/dp0sk/Crosspipe/refs/heads/main/attachments/icon.svg" />
+    <br/>
+    <a href="https://flathub.org/apps/io.github.dp0sk.Crosspipe">
+      <img align="right" width="190" alt="Download on Flathub" src="https://flathub.org/api/badge?locale=en" />
+    </a>
+  </div>
 
-![Crosspipe Icon](https://raw.githubusercontent.com/dp0sk/Crosspipe/refs/heads/main/attachments/icon.svg)
-
-## PipeWire graph GTK4/Libadwaita GUI.
-Crosspipe is a visual graph manager for PipeWire, built with GTK4/Libadwaita and Vala, following the GNOME Human Interface Guidelines.
-
-![Light theme](https://raw.githubusercontent.com/dp0sk/Crosspipe/refs/heads/main/attachments/screenshot-light.png)
-![Dark theme](https://raw.githubusercontent.com/dp0sk/Crosspipe/refs/heads/main/attachments/screenshot-dark.png)
-
-https://github.com/user-attachments/assets/85cd1226-2483-4351-93de-db7910194b53
+  <br/> <br/> <br/> <br/>
+  
+  <h1>Crosspipe - PipeWire graph GTK4/Libadwaita GUI.</h1>
+  
+  <p>
+    Crosspipe is a visual graph manager for PipeWire,
+    built with GTK4/Libadwaita and Vala,
+    following the GNOME HIG.
+  </p>
+  
+  <div align="left">
+    <img alt="Light theme" width="49%" src="https://raw.githubusercontent.com/dp0sk/Crosspipe/refs/heads/main/attachments/screenshot-light.png" />
+    <img alt="Dark theme" width="49%" src="https://raw.githubusercontent.com/dp0sk/Crosspipe/refs/heads/main/attachments/screenshot-dark.png" />
+  </div>
+  
+  <br/>
+  
+  <a href="https://repology.org/project/crosspipe/versions">
+    <img src="https://repology.org/badge/vertical-allrepos/crosspipe.svg" alt="Packaging status" align="left">
+  </a>
+  
+  <br/> <br/>
+</div>
 
 ## Features
 
 - Visual graph of PipeWire nodes and connections
 - Drag-and-drop connection management
 - Native GTK4/Libadwaita interface, following GNOME HIG
+
+## Installing
+```bash
+flatpak install flathub io.github.dp0sk.Crosspipe
+```
 
 ## Dependencies
 
