@@ -22,10 +22,6 @@ cleanup:
 modules:
   - name: libgee
     buildsystem: autotools
-    config-args:
-      - --disable-static
-      - --disable-introspection
-      - --disable-tests
     sources:
       - type: git
         url: https://gitlab.gnome.org/GNOME/libgee.git
