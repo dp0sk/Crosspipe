@@ -35,10 +35,7 @@ modules:
   - name: crosspipe
     buildsystem: meson
     sources:
-      - type: dir
-        path: .
-      
-#      - type: git
-#        url: https://github.com/dp0sk/Crosspipe.git
-#        tag: 0.1.0
-#        commit: 
+      - type: git
+        url: https://github.com/dp0sk/Crosspipe.git
+        tag: 0.1.0
+        commit: a2019c6f7685a85aba9a01df96744c1a48bb6c44
