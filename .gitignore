@@ -1,0 +1,8 @@
+# Flatpak build directories
+.flatpak-builder/
+repo/
+build-flatpak/
+
+# Meson / Ninja build directories
+build/
+builddir/

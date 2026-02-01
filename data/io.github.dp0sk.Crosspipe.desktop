@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Crosspipe
+Comment=PipeWire Graph Manager
+Exec=crosspipe
+Icon=io.github.dp0sk.Crosspipe
+Terminal=false
+Type=Application
+Categories=AudioVideo;Audio;Mixer;GTK;
+Keywords=audio;video;sound;midi;pipewire;jack;routing;patchbay;
+StartupNotify=true

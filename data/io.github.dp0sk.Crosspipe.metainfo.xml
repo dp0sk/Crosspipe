@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.dp0sk.Crosspipe</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  
+  <name>Crosspipe</name>
+  <summary>PipeWire graph GTK4/Libadwaita GUI</summary>
+  
+  <description>
+    <p>
+      Crosspipe is a visual graph manager for PipeWire, built with GTK4/Libadwaita and Vala, following the GNOME Human Interface Guidelines.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>Visual graph of PipeWire nodes and connections</li>
+      <li>Drag-and-drop connection management</li>
+      <li>Native GTK4/Libadwaita interface, following GNOME HIG</li>
+    </ul>
+  </description>
+  
+  <launchable type="desktop-id">io.github.dp0sk.Crosspipe.desktop</launchable>
+  
+  <screenshots>
+    <screenshot type="default">
+      <caption>Dark theme</caption>
+      <image>https://raw.githubusercontent.com/dp0sk/Crosspipe/refs/heads/main/data/screenshot-dark.png</image>
+    </screenshot>
+    <screenshot type="default">
+      <caption>Light theme</caption>
+      <image>https://raw.githubusercontent.com/dp0sk/Crosspipe/refs/heads/main/data/screenshot-light.png</image>
+    </screenshot>
+  </screenshots>
+  
+  <url type="homepage">https://github.com/dp0sk/crosspipe</url>
+  <url type="bugtracker">https://github.com/dp0sk/crosspipe/issues</url>
+  <url type="vcs-browser">https://github.com/dp0sk/crosspipe</url>
+  
+  <developer id="io.github.dp0sk">
+    <name>dp0sk</name>
+  </developer>
+  
+  <provides>
+    <binary>crosspipe</binary>
+  </provides>
+  
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  
+  <requires>
+    <display_length compare="ge">800</display_length>
+  </requires>
+  
+  <content_rating type="oars-1.1" />
+  
+  <releases>
+    <release version="0.1.0" date="2026-01-26">
+      <description>
+        <p>Initial release</p>
+      </description>
+    </release>
+  </releases>
+</component>
