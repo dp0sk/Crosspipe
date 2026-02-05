@@ -54,6 +54,7 @@ namespace Crosspipe.Canvas {
         private Port? connecting_port = null;
         private Connection? temp_connection = null;
         private bool panning = false;
+        private bool space_pressed = false;
         private double last_x = 0;
         private double last_y = 0;
         private double last_mouse_x = 0;
@@ -117,6 +118,7 @@ namespace Crosspipe.Canvas {
             
             // Drag handler (for panning and moving nodes)
             var drag = new Gtk.GestureDrag ();
+            drag.button = 0; // Listen to all buttons (including middle click)
             drag.drag_begin.connect (on_drag_begin);
             drag.drag_update.connect (on_drag_update);
             drag.drag_end.connect (on_drag_end);
@@ -125,6 +127,7 @@ namespace Crosspipe.Canvas {
             // Keyboard handler
             var key = new Gtk.EventControllerKey ();
             key.key_pressed.connect (on_key_pressed);
+            key.key_released.connect (on_key_released);
             add_controller (key);
             
             // Zoom gesture handler (Touchpad pinch)
@@ -456,6 +459,7 @@ namespace Crosspipe.Canvas {
                 panning = true;
                 last_x = x;
                 last_y = y;
+                set_cursor (new Gdk.Cursor.from_name ("grabbing", null));
                 
             } else if (button == 3) {  // Right click - context menu
                 show_context_menu (x, y);
@@ -524,12 +528,29 @@ namespace Crosspipe.Canvas {
                 
             } else if (button == 2) {
                 panning = false;
+                set_cursor (null);
             }
             
             queue_draw ();
         }
         
         private void on_motion (Gtk.EventControllerMotion controller, double x, double y) {
+            if (space_pressed) {
+                // Pan view
+                double dx = x - last_x;
+                double dy = y - last_y;
+                pan_x += dx;
+                pan_y += dy;
+                last_x = x;
+                last_y = y;
+                queue_draw ();
+                
+                // Keep track of mouse position for zoom
+                last_mouse_x = x;
+                last_mouse_y = y;
+                return;
+            }
+
             last_mouse_x = x;
             last_mouse_y = y;
             update_hovered_item (x, y);
@@ -589,7 +610,7 @@ namespace Crosspipe.Canvas {
             }
             
             if (panning || gesture.get_current_button () == 2) {
-                // Pan the view
+                // Pan the view - traditional drag
                 double start_x, start_y;
                 gesture.get_start_point (out start_x, out start_y);
                 pan_x = offset_x + start_x - last_x + pan_x;
@@ -602,6 +623,7 @@ namespace Crosspipe.Canvas {
         
         private void on_drag_end (Gtk.GestureDrag gesture, double _offset_x, double _offset_y) {
             panning = false;
+            set_cursor (null);
         }
         
         private void on_zoom_begin (Gtk.Gesture gesture, Gdk.EventSequence? _sequence) {
@@ -689,6 +711,15 @@ namespace Crosspipe.Canvas {
                                      uint keyval, uint _keycode, 
                                      Gdk.ModifierType state) {
             switch (keyval) {
+                case Gdk.Key.space:
+                    if (!space_pressed) {
+                        space_pressed = true;
+                        last_x = last_mouse_x;
+                        last_y = last_mouse_y;
+                        set_cursor (new Gdk.Cursor.from_name ("grabbing", null));
+                    }
+                    return true;
+                    
                 case Gdk.Key.Delete:
                 case Gdk.Key.BackSpace:
                     delete_selected ();
@@ -711,6 +742,15 @@ namespace Crosspipe.Canvas {
                     break;
             }
             return false;
+        }
+
+        private void on_key_released (Gtk.EventControllerKey controller, 
+                                     uint keyval, uint _keycode, 
+                                     Gdk.ModifierType state) {
+            if (keyval == Gdk.Key.space) {
+                space_pressed = false;
+                set_cursor (null); // Restore default
+            }
         }
         
         private void show_context_menu (double x, double y) {
