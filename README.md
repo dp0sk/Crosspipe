@@ -1,6 +1,6 @@
 <div>
   <div align="left">
-    <img alt="Crosspipe icon" align="left" src="https://raw.githubusercontent.com/dp0sk/Crosspipe/refs/heads/main/attachments/icon.svg" />
+    <img alt="Crosspipe icon" align="left" src="https://raw.githubusercontent.com/dp0sk/Crosspipe/refs/heads/main/data/icons/hicolor/scalable/apps/io.github.dp0sk.Crosspipe.svg" />
     <br/>
     <a href="https://flathub.org/apps/io.github.dp0sk.Crosspipe">
       <img align="right" width="190" alt="Download on Flathub" src="https://flathub.org/api/badge?locale=en" />
@@ -18,8 +18,8 @@
   </p>
   
   <div align="left">
-    <img alt="Light theme" width="49%" src="https://raw.githubusercontent.com/dp0sk/Crosspipe/refs/heads/main/attachments/screenshot-light.png" />
-    <img alt="Dark theme" width="49%" src="https://raw.githubusercontent.com/dp0sk/Crosspipe/refs/heads/main/attachments/screenshot-dark.png" />
+    <img alt="Light theme" width="49%" src="https://raw.githubusercontent.com/dp0sk/Crosspipe/refs/heads/main/data/screenshot-light.png" />
+    <img alt="Dark theme" width="49%" src="https://raw.githubusercontent.com/dp0sk/Crosspipe/refs/heads/main/data/screenshot-dark.png" />
   </div>
   
   <br/>
