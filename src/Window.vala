@@ -113,6 +113,7 @@ namespace Crosspipe {
             menu.append_section ("View", view_section);
             
             var app_section = new Menu ();
+            app_section.append ("Shortcuts", "app.shortcuts");
             app_section.append ("About", "app.about");
             app_section.append ("Quit", "app.quit");
             menu.append_section (null, app_section);
@@ -151,7 +152,7 @@ namespace Crosspipe {
             zoom_box.append (zoom_in_btn);
             
             var zoom_fit_btn = new Gtk.Button.from_icon_name ("zoom-fit-best-symbolic");
-            zoom_fit_btn.tooltip_text = "Fit to Content";
+            zoom_fit_btn.tooltip_text = "Fit to Content (Ctrl+F)";
             zoom_fit_btn.action_name = "win.zoom-fit";
             zoom_box.append (zoom_fit_btn);
             
