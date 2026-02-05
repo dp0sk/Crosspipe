@@ -25,9 +25,9 @@ namespace Crosspipe {
         // Node counters for automatic layout
         private int source_nodes_count = 0;
         private int sink_nodes_count = 0;
-        private const int NODES_PER_COLUMN = 6;
-        private const double COLUMN_WIDTH = 320.0;
-        private const double ROW_HEIGHT = 180.0;
+        private const int NODES_PER_COLUMN = 8;
+        private const double COLUMN_WIDTH = 256.0;
+        private const double ROW_HEIGHT = 128.0;
         
         public Window (Gtk.Application app) {
             Object (application: app);
@@ -257,11 +257,11 @@ namespace Crosspipe {
             bool is_sink = (mode == Backend.NodeMode.INPUT);
             var node = new Canvas.Node (id, name, is_sink);
 
-            // Sorting nodes
+            // Sorting nodes - compacted layout
             if (is_sink) {
                 int col = sink_nodes_count / NODES_PER_COLUMN;
                 int row = sink_nodes_count % NODES_PER_COLUMN;
-                node.x = 750 + col * COLUMN_WIDTH;  // Sinks on the right
+                node.x = 600 + col * COLUMN_WIDTH;  // Sinks closer (reduced from 750)
                 node.y = 50 + row * ROW_HEIGHT;
                 sink_nodes_count++;
             } else {

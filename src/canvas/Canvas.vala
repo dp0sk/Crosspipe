@@ -139,9 +139,6 @@ namespace Crosspipe.Canvas {
             // Listen to theme changes
             Adw.StyleManager.get_default ().notify["dark"].connect (() => {
                 foreach (var node in nodes.values) {
-                    // We need a way to tell the node to update its colors.
-                    // Let's add an update_colors method or just call it if public.
-                    // Since it's private, I'll make it public or add a public method.
                     node.update_theme (); 
                 }
                 queue_draw ();
