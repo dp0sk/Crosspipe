@@ -56,6 +56,21 @@
   <content_rating type="oars-1.1" />
   
   <releases>
+      <release version="0.1.1" date="2026-02-05">
+      <description>
+        <p>Fixes</p>
+        <ul>
+          <li>Fixed memory leak, caused by pipewire backend not freeing itself on exit</li>
+          <li>Fixed tiny default zoom level</li>
+        </ul>
+        <p>Changes</p>
+        <ul>
+          <li>New icon</li>
+          <li>Added panning with middle mouse button and space key</li>
+          <li>Added shortcuts view</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.1.0" date="2026-01-26">
       <description>
         <p>Initial release</p>
