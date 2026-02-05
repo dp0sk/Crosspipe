@@ -5,17 +5,17 @@
   <project_license>GPL-3.0-only</project_license>
   
   <name>Crosspipe</name>
-  <summary>PipeWire graph GTK4/Libadwaita GUI</summary>
+  <summary>Route audio and video streams</summary>
   
   <description>
     <p>
-      Crosspipe is a visual graph manager for PipeWire, built with GTK4/Libadwaita and Vala, following the GNOME Human Interface Guidelines.
+      Crosspipe is a graph-based PipeWire manager for GNOME, built with Vala and love.
     </p>
     <p>Features:</p>
     <ul>
-      <li>Visual graph of PipeWire nodes and connections</li>
+      <li>Visual graph of all PipeWire connections</li>
       <li>Drag-and-drop connection management</li>
-      <li>Native GTK4/Libadwaita interface, following GNOME HIG</li>
+      <li>Modern GTK4/Libadwaita interface</li>
     </ul>
   </description>
   
@@ -23,14 +23,19 @@
   
   <screenshots>
     <screenshot type="default">
-      <caption>Dark theme</caption>
-      <image>https://raw.githubusercontent.com/dp0sk/Crosspipe/refs/heads/main/data/screenshot-dark.png</image>
-    </screenshot>
-    <screenshot type="default">
-      <caption>Light theme</caption>
+      <caption>Light style</caption>
       <image>https://raw.githubusercontent.com/dp0sk/Crosspipe/refs/heads/main/data/screenshot-light.png</image>
     </screenshot>
+    <screenshot type="default">
+      <caption>Dark style</caption>
+      <image>https://raw.githubusercontent.com/dp0sk/Crosspipe/refs/heads/main/data/screenshot-dark.png</image>
+    </screenshot>
   </screenshots>
+
+  <branding>
+    <color type="primary" scheme_preference="light">#d4cff6</color>
+    <color type="primary" scheme_preference="dark">#322d56</color>
+  </branding>
   
   <url type="homepage">https://github.com/dp0sk/crosspipe</url>
   <url type="bugtracker">https://github.com/dp0sk/crosspipe/issues</url>
