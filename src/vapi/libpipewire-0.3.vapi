@@ -93,7 +93,7 @@ namespace PipeWire {
     public delegate void ProxyRemovedCallback (void* data);
     
     [CCode (cname = "pw_proxy_error_callback", instance_pos = 0)]
-    public delegate void ProxyErrorCallback (void* data, int seq, int res, string message);
+    public delegate void ProxyErrorCallback (void* data, int seq, int res, unowned string message);
 
     [CCode (cname = "struct pw_core", free_function = "pw_core_disconnect", has_type_id = false)]
     [Compact]
@@ -108,7 +108,7 @@ namespace PipeWire {
         public int sync (uint32 id, int seq);
         
         [CCode (cname = "pw_core_create_object")]
-        public Proxy? create_object (string factory_name, string type, uint32 version, [CCode (type = "const struct spa_dict*")] SPA.Dict? props, size_t user_data_size);
+        public Proxy? create_object (unowned string factory_name, unowned string type, uint32 version, [CCode (type = "const struct spa_dict*")] SPA.Dict? props, size_t user_data_size);
     }
     
     [CCode (cname = "PW_VERSION_CORE_EVENTS")]
@@ -129,7 +129,7 @@ namespace PipeWire {
     public delegate void CoreDoneCallback (void* data, uint32 id, int seq);
     
     [CCode (cname = "pw_core_error_callback", instance_pos = 0)]
-    public delegate void CoreErrorCallback (void* data, uint32 id, int seq, int res, string message);
+    public delegate void CoreErrorCallback (void* data, uint32 id, int seq, int res, unowned string message);
 
     [CCode (cname = "struct pw_registry", free_function = "gpw_registry_destroy", cheader_filename = "pipewire_wrapper.h", has_type_id = false)]
     [Compact]
@@ -141,7 +141,7 @@ namespace PipeWire {
         public int destroy (uint32 id);
         
         [CCode (cname = "pw_registry_bind")]
-        public Proxy? bind (uint32 id, string type, uint32 version, size_t user_data_size);
+        public Proxy? bind (uint32 id, unowned string type, uint32 version, size_t user_data_size);
     }
     
     [CCode (cname = "PW_VERSION_REGISTRY_EVENTS")]
@@ -157,7 +157,7 @@ namespace PipeWire {
     }
 
     [CCode (cname = "pw_registry_global_callback", instance_pos = 0)]
-    public delegate void GlobalCallback (void *data, uint32 id, uint32 permissions, string type, uint32 version, [CCode (type = "const struct spa_dict*")] SPA.Dict? props);
+    public delegate void GlobalCallback (void *data, uint32 id, uint32 permissions, unowned string type, uint32 version, [CCode (type = "const struct spa_dict*")] SPA.Dict? props);
     
     [CCode (cname = "pw_registry_global_remove_callback", instance_pos = 0)]
     public delegate void GlobalRemoveCallback (void *data, uint32 id);

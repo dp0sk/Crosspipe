@@ -2,11 +2,19 @@ namespace Crosspipe {
     public class Application : Adw.Application {
         private Window? main_window = null;
         
+        private static bool verbose = false;
+
+        private const GLib.OptionEntry[] entries = {
+            { "verbose", 'v', 0, GLib.OptionArg.NONE, ref verbose, "Enable verbose logging", null },
+            { null }
+        };
+
         public Application () {
             Object (
                 application_id: Config.APP_ID,
-                flags: ApplicationFlags.DEFAULT_FLAGS
+                flags: ApplicationFlags.FLAGS_NONE
             );
+            this.add_main_option_entries (entries);
         }
         
         construct {
@@ -26,6 +34,27 @@ namespace Crosspipe {
             this.set_accels_for_action ("win.refresh", { "F5", "<Ctrl>r" });
         }
         
+        protected override int handle_local_options (GLib.VariantDict options) {
+            if (options.contains ("verbose")) {
+                verbose = true;
+            }
+
+            // Set up logging
+            Log.set_writer_func ((level, fields) => {
+                // If not verbose, ignore everything below WARNING
+                if (!verbose && (level & (LogLevelFlags.LEVEL_DEBUG | LogLevelFlags.LEVEL_INFO | LogLevelFlags.LEVEL_MESSAGE)) != 0) {
+                    return LogWriterOutput.HANDLED;
+                }
+                return Log.writer_default (level, fields);
+            });
+
+            if (verbose) {
+                Environment.set_variable ("G_MESSAGES_DEBUG", "all", true);
+            }
+
+            return -1;
+        }
+
         protected override void activate () {
             if (main_window == null) {
                 main_window = new Window (this);

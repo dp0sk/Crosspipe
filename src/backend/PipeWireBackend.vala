@@ -165,7 +165,7 @@ namespace Crosspipe.Backend {
 
                 sync_core();
                 is_connected = true;
-                print("PipeWireBackend: Connected to PipeWire\n");
+                debug("PipeWireBackend: Connected to PipeWire");
                 
             } catch (Error e) {
                 loop.unlock();
@@ -296,6 +296,8 @@ namespace Crosspipe.Backend {
         
         // Re-emit known objects
         public override void refresh () {
+            if (loop != null) loop.lock();
+            
             // Re-emit signals for all known and visible objects to rebuild the view
             foreach (var node in nodes_map.values) {
                 if (node.visible) {
@@ -315,12 +317,14 @@ namespace Crosspipe.Backend {
                 link_added (link.id, link.output_port_id, link.input_port_id);
             }
             
+            if (loop != null) loop.unlock();
+            
             refreshed ();
         }
         
         // Sync core
         internal void sync_core () {
-            print("PipeWireBackend: Sync core start pending=%d\n", pending_seq);
+            debug("PipeWireBackend: Sync core start pending=%d", pending_seq);
             if (loop == null || core == null) return;
             
             if (loop.in_thread()) return;
@@ -333,6 +337,10 @@ namespace Crosspipe.Backend {
                 if (pending_seq == last_seq) break;
             }
         }
+
+        ~PipeWireBackend () {
+            stop ();
+        }
     }
 
     // Parse boolean property
@@ -344,7 +352,7 @@ namespace Crosspipe.Backend {
     // Core done event handler
     internal static void on_core_done (void* data, uint32 id, int seq) {
         var self = (PipeWireBackend)data;
-        print("PipeWireBackend: Core done seq=%d\n", seq);
+        debug("PipeWireBackend: Core done seq=%d", seq);
         
         if (id == PipeWire.ID_CORE) {
             self.last_seq = seq;
@@ -364,9 +372,9 @@ namespace Crosspipe.Backend {
         }
     }
     
-    internal static void on_core_error (void* data, uint32 id, int seq, int res, string message) {
+    internal static void on_core_error (void* data, uint32 id, int seq, int res, unowned string message) {
         var self = (PipeWireBackend)data;
-        print("PipeWireBackend: Core error: id=%u seq=%d res=%d msg=%s\n", id, seq, res, message);
+        debug("PipeWireBackend: Core error: id=%u seq=%d res=%d msg=%s", id, seq, res, message);
         
         warning("PipeWire core error: id=%u seq=%d res=%d: %s", id, seq, res, message);
         
@@ -383,9 +391,9 @@ namespace Crosspipe.Backend {
     }
 
     // Registry global event handler
-    internal static void on_global (void *data, uint32 id, uint32 _permissions, string type, uint32 _version, SPA.Dict? props) {
+    internal static void on_global (void *data, uint32 id, uint32 _permissions, unowned string type, uint32 _version, SPA.Dict? props) {
         var self = (PipeWireBackend)data;
-        print("PipeWireBackend: Global added: id=%u type=%s\n", id, type);
+        debug("PipeWireBackend: Global added: id=%u type=%s", id, type);
         
         string? name = null;
         if (props != null) {
@@ -394,7 +402,7 @@ namespace Crosspipe.Backend {
             if (name == null) name = props.get(PipeWire.KEY_NODE_DESCRIPTION);
         }
         if (type == PipeWire.Node.INTERFACE_NAME) {
-            print("PipeWireBackend: Node global id=%u\n", id); 
+            debug("PipeWireBackend: Node global id=%u", id); 
             // Parse node name following qpwgraph pattern:
             string? node_desc = null;
             string? node_nick = null;
@@ -416,18 +424,19 @@ namespace Crosspipe.Backend {
                 media_class = props.get(PipeWire.KEY_MEDIA_CLASS);
             }
             
-            if (node_desc == null || node_desc.length == 0) {
-                node_desc = "node";
-            }
-            
+            // Sanitize and limit lengths to prevent DoS
+            if (node_desc != null && node_desc.length > 256) node_desc = node_desc.substring(0, 256);
+            if (node_nick != null && node_nick.length > 256) node_nick = node_nick.substring(0, 256);
+            if (app_name != null && app_name.length > 256) app_name = app_name.substring(0, 256);
+
             // Build full node name: app_name/node_description (if different)
-            string node_name = node_desc;
+            string node_name = node_desc ?? "node";
             if (app_name != null && app_name.length > 0 && app_name != node_desc) {
-                node_name = app_name + "/" + node_desc;
+                node_name = app_name + "/" + (node_desc ?? "");
             }
             
             // Use nick for display, fallback to description
-            string nick = node_nick ?? node_desc;
+            string nick = node_nick ?? node_desc ?? "node";
             
             // Determine node mode from media.class
             NodeMode node_mode = NodeMode.NONE;
@@ -464,7 +473,7 @@ namespace Crosspipe.Backend {
             var node_info = new PipeWireBackend.NodeInfo(id, node_name, nick, node_mode, node_type, media_class);
             self.nodes_map.set(id, node_info);
             
-            // Check if ports already exist for this node (unlikely but possible out-of-order)
+            // Check if ports already exist for this node
             bool has_ports = false;
             foreach (var p in self.ports_map.values) {
                 if (p.node_id == id) {
@@ -484,7 +493,7 @@ namespace Crosspipe.Backend {
             }
         } 
         else if (type == PipeWire.Port.INTERFACE_NAME) {
-            print("PipeWireBackend: Port global id=%u\n", id);
+            debug("PipeWireBackend: Port global id=%u", id);
             uint node_id = 0;
             if (props != null) {
                 var nid = props.get(PipeWire.KEY_NODE_ID);
@@ -589,7 +598,7 @@ namespace Crosspipe.Backend {
             }
         }
         else if (type == PipeWire.Link.INTERFACE_NAME) {
-            print("PipeWireBackend: Link global id=%u\n", id);
+            debug("PipeWireBackend: Link global id=%u", id);
             uint out_port = 0;
             uint in_port = 0;
             
@@ -614,7 +623,7 @@ namespace Crosspipe.Backend {
     // Registry global_remove callback
     internal static void on_global_remove (void *data, uint32 id) {
         var self = (PipeWireBackend)data;
-        print("PipeWireBackend: Global removed: id=%u\n", id);
+        debug("PipeWireBackend: Global removed: id=%u", id);
         
         // Determine which type of object was removed
         if (self.nodes_map.has_key(id)) {

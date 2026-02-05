@@ -243,7 +243,16 @@ namespace Crosspipe.Canvas {
             
             if (extents.width > width - PADDING * 2) {
                 // Truncate with ellipsis
-                while (display_name.length > 3 && extents.width > width - PADDING * 3) {
+                double available_width = width - PADDING * 3;
+                double avg_char_width = extents.width / display_name.length;
+                int estimated_chars = (int)(available_width / avg_char_width);
+                
+                if (estimated_chars < display_name.length) {
+                    display_name = display_name.substring(0, int.max(0, estimated_chars));
+                }
+                
+                cr.text_extents (display_name + "...", out extents);
+                while (display_name.length > 1 && extents.width > available_width) {
                     display_name = display_name.substring (0, display_name.length - 1);
                     cr.text_extents (display_name + "...", out extents);
                 }

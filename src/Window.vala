@@ -253,7 +253,7 @@ namespace Crosspipe {
         }
         
         private void on_node_added (uint id, string name, string nick, Backend.NodeMode mode, Backend.NodeType _node_type) {
-            print("Window: Node Added signal received: %u '%s' (nick: '%s')\n", id, name, nick);
+            debug("Window: Node Added signal received: %u '%s' (nick: '%s')", id, name, nick);
             bool is_sink = (mode == Backend.NodeMode.INPUT);
             var node = new Canvas.Node (id, name, is_sink);
 

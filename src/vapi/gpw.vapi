@@ -26,18 +26,18 @@ namespace GPW {
     public delegate void CoreDoneFunc (void *data, uint32 id, int seq);
     
     [CCode (has_target = false)]
-    public delegate void CoreErrorFunc (void *data, uint32 id, int seq, int res, string message);
+    public delegate void CoreErrorCallback (void *data, uint32 id, int seq, int res, unowned string message);
 
     [CCode (cname = "struct pw_core_events", has_type_id = false)]
     public struct CoreEvents {
         public uint32 version;
         public void* info;
         public CoreDoneFunc done;
-        public CoreErrorFunc error;
+        public CoreErrorCallback error;
     }
 
     [CCode (has_target = false)]
-    public delegate void GlobalFunc (void *data, uint32 id, uint32 permissions, string type, uint32 version, [CCode (type = "const struct spa_dict*")] SPA.Dict? props);
+    public delegate void GlobalFunc (void *data, uint32 id, uint32 permissions, unowned string type, uint32 version, [CCode (type = "const struct spa_dict*")] SPA.Dict? props);
 
     [CCode (has_target = false)]
     public delegate void GlobalRemoveFunc (void *data, uint32 id);
